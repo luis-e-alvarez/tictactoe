@@ -4,12 +4,21 @@ body{
 td{
     border: 2px solid black;
 }
+h1{
+   width: 100%;
+   text-align: center;
+   margin-left: 28px;
+   margin-top: 30px;
+}
 #table{
-    margin-top: 150px;;
+    margin-top: 25px;;
 }
 #score{
-    margin-left: 558px;
-    font-size: 125%;
+   width: 100%;
+   text-align: center;
+   margin-left: 28px;
+   margin-top: 25px;
+   font-size: 125%;
 }
 #grid{
     width: 115px;

@@ -142,6 +142,7 @@ class App extends React.Component{
   render(){
     return(
       <div>
+        <h1 class="header">Tic-Tac-Toe</h1>
         <div id='table'><Table table={this.state.board} changeInput={this.changeInput.bind(this)} /></div>
         <div id="score">
           <h3>Player X Score: {this.state.playerX}</h3>

@@ -1122,6 +1122,11 @@ var App = function (_React$Component) {
         'div',
         null,
         _react2.default.createElement(
+          'h1',
+          { 'class': 'header' },
+          'Tic-Tac-Toe'
+        ),
+        _react2.default.createElement(
           'div',
           { id: 'table' },
           _react2.default.createElement(_Table2.default, { table: this.state.board, changeInput: this.changeInput.bind(this) })
