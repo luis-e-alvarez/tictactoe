@@ -17,13 +17,13 @@ class TableRow extends React.Component{
     return(
       <tr>
         {this.props.row.map((item, j) => {
-          return <td key={j}><span onClick={function(e){
+          return <td key={j}><span id="piece" onClick={function(e){
             let newIndex = this.state.index;
             newIndex[e.target] = j;
             this.setState({
               index: newIndex
             });
-            this.clicked(e)}.bind(this)}>{item}</span>
+            this.clicked(e)}.bind(this)}><font size="6">{item}</font></span>
           </td>
         })}
       </tr>

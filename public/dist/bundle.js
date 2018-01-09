@@ -18562,25 +18562,25 @@ var TableRow = function (_React$Component) {
   }
 
   _createClass(TableRow, [{
-    key: 'clicked',
+    key: "clicked",
     value: function clicked(e) {
       this.props.changeInput(this.state.val, this.state.index[e.target]);
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       var _this2 = this;
 
       return _react2.default.createElement(
-        'tr',
+        "tr",
         null,
         this.props.row.map(function (item, j) {
           return _react2.default.createElement(
-            'td',
+            "td",
             { key: j },
             _react2.default.createElement(
-              'span',
-              { onClick: function (e) {
+              "span",
+              { id: "piece", onClick: function (e) {
                   var newIndex = this.state.index;
                   newIndex[e.target] = j;
                   this.setState({
@@ -18588,7 +18588,11 @@ var TableRow = function (_React$Component) {
                   });
                   this.clicked(e);
                 }.bind(_this2) },
-              item
+              _react2.default.createElement(
+                "font",
+                { size: "6" },
+                item
+              )
             )
           );
         })
