@@ -1031,7 +1031,7 @@ var App = function (_React$Component) {
           drawCount: this.state.drawCount += 1
         });
       }
-      if (this.checkRows(marker) || this.checkColumns(marker) || this.checkMajorDiagonals(marker) || this.checkMinorDiagonals(marker)) {
+      if (this.checkRows(marker, i) || this.checkColumns(marker, j) || this.checkMajorDiagonals(marker) || this.checkMinorDiagonals(marker)) {
         var _setState;
 
         marker = marker.toUpperCase();
@@ -1058,34 +1058,30 @@ var App = function (_React$Component) {
     }
   }, {
     key: 'checkRows',
-    value: function checkRows(marker) {
-      for (var i = 0; i < this.state.board.length; i++) {
-        var row = this.state.board[i];
-        var count = 0;
-        for (var j = 0; j < row.length; j++) {
-          if (row[j] === marker) {
-            count++;
-          }
+    value: function checkRows(marker, i) {
+      var row = this.state.board[i];
+      var count = 0;
+      for (var j = 0; j < row.length; j++) {
+        if (row[j] === marker) {
+          count++;
         }
-        if (count === 3) {
-          return true;
-        }
+      }
+      if (count === 3) {
+        return true;
       }
       return false;
     }
   }, {
     key: 'checkColumns',
-    value: function checkColumns(marker) {
+    value: function checkColumns(marker, j) {
+      var count = 0;
       for (var i = 0; i < this.state.board.length; i++) {
-        var count = 0;
-        for (var j = 0; j < this.state.board.length; j++) {
-          if (this.state.board[j][i] === marker) {
-            count++;
-          }
+        if (this.state.board[i][j] === marker) {
+          count++;
         }
-        if (count === 3) {
-          return true;
-        }
+      }
+      if (count === 3) {
+        return true;
       }
       return false;
     }
@@ -18508,7 +18504,7 @@ var Table = function (_React$Component) {
                 this.props.table.map(function (array, i) {
                     return _react2.default.createElement(
                         'div',
-                        { key: i },
+                        { id: 'grid', key: i },
                         _react2.default.createElement(_TableRow2.default, { row: array, changeInput: _this2.props.changeInput, value: i })
                     );
                 })

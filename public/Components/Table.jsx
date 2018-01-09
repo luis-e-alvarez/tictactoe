@@ -10,7 +10,7 @@ class Table extends React.Component{
       return(
           <div>
           {this.props.table.map((array, i) => {
-             return <div key={i}><TableRow row={array} changeInput={this.props.changeInput} value={i}/></div>
+             return <div id="grid" key={i}><TableRow row={array} changeInput={this.props.changeInput} value={i}/></div>
           })}
           </div>
        );

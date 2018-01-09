@@ -59,7 +59,7 @@ class App extends React.Component{
         drawCount: this.state.drawCount += 1,
       });
     }
-    if(this.checkRows(marker) || this.checkColumns(marker) || this.checkMajorDiagonals(marker) ||this.checkMinorDiagonals(marker)){
+    if(this.checkRows(marker, i) || this.checkColumns(marker, j) || this.checkMajorDiagonals(marker) ||this.checkMinorDiagonals(marker)){
         marker = marker.toUpperCase();
         alert(`YOU WON, PLAYER ${marker}!`);
         let name = `player${marker}`;
@@ -84,8 +84,7 @@ class App extends React.Component{
     }
   }
 
-  checkRows(marker){
-    for(var i = 0; i < this.state.board.length; i++){
+  checkRows(marker, i){
       let row = this.state.board[i];
       let count = 0;
       for(var j = 0; j < row.length; j++){
@@ -96,22 +95,19 @@ class App extends React.Component{
       if(count === 3){
           return true;
       }
-    }
     return false;
   }
 
-  checkColumns(marker){
-    for(var i = 0; i < this.state.board.length; i++){
+  checkColumns(marker, j){
       let count = 0;
-      for(var j = 0; j < this.state.board.length; j++){
-        if(this.state.board[j][i] === marker){
+      for(var i = 0; i < this.state.board.length; i++){
+        if(this.state.board[i][j] === marker){
             count++;
         }
       }
       if(count === 3){
           return true;
       }
-    }
     return false;
   }
 
