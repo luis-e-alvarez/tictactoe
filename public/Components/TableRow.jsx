@@ -23,7 +23,7 @@ class TableRow extends React.Component{
             this.setState({
               index: newIndex
             });
-            this.clicked(e)}.bind(this)}><font size="6">{item}</font></span>
+            this.clicked(e)}.bind(this)}><font size="7">{item}</font></span>
           </td>
         })}
       </tr>

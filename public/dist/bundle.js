@@ -1123,20 +1123,24 @@ var App = function (_React$Component) {
         null,
         _react2.default.createElement(
           'div',
-          null,
+          { id: 'table' },
           _react2.default.createElement(_Table2.default, { table: this.state.board, changeInput: this.changeInput.bind(this) })
         ),
         _react2.default.createElement(
-          'h3',
-          null,
-          'Player X Score: ',
-          this.state.playerX
-        ),
-        _react2.default.createElement(
-          'h3',
-          null,
-          'Player O Score: ',
-          this.state.playerO
+          'div',
+          { id: 'score' },
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Player X Score: ',
+            this.state.playerX
+          ),
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Player O Score: ',
+            this.state.playerO
+          )
         )
       );
     }
@@ -18586,7 +18590,7 @@ var TableRow = function (_React$Component) {
                 }.bind(_this2) },
               _react2.default.createElement(
                 "font",
-                { size: "6" },
+                { size: "7" },
                 item
               )
             )

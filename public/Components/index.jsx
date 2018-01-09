@@ -142,10 +142,12 @@ class App extends React.Component{
   render(){
     return(
       <div>
-      <div><Table table={this.state.board} changeInput={this.changeInput.bind(this)} /></div>
-      <h3>Player X Score: {this.state.playerX}</h3>
-      <h3>Player O Score: {this.state.playerO}</h3>
-      </div>
+        <div id='table'><Table table={this.state.board} changeInput={this.changeInput.bind(this)} /></div>
+        <div id="score">
+          <h3>Player X Score: {this.state.playerX}</h3>
+          <h3>Player O Score: {this.state.playerO}</h3>
+        </div>
+     </div>
     );
   }
 }
