@@ -1043,11 +1043,11 @@ var App = function (_React$Component) {
         }, _defineProperty(_setState, name, score), _defineProperty(_setState, 'drawCount', 0), _setState));
         return this.startGame();
       }
-      this.endGame();
+      this.drawGame();
     }
   }, {
-    key: 'endGame',
-    value: function endGame() {
+    key: 'drawGame',
+    value: function drawGame() {
       if (this.state.drawCount === 9) {
         alert('This is a draw');
         this.setState({

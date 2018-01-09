@@ -71,10 +71,10 @@ class App extends React.Component{
         });
         return this.startGame();
     }
-    this.endGame();
+    this.drawGame();
   }
   
-  endGame(){
+  drawGame(){
     if(this.state.drawCount === 9){
       alert(`This is a draw`);
       this.setState({
