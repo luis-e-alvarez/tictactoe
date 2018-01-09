@@ -956,6 +956,8 @@ var _Table2 = _interopRequireDefault(_Table);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -963,74 +965,188 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var App = function (_React$Component) {
-    _inherits(App, _React$Component);
+  _inherits(App, _React$Component);
 
-    function App(props) {
-        _classCallCheck(this, App);
+  function App(props) {
+    _classCallCheck(this, App);
 
-        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-        _this.state = {
-            playerOneScore: 0,
-            playerTwoScore: 0,
-            board: [['+', '+', '+'], ['+', '+', '+'], ['+', '+', '+']],
-            turn: 0
-        };
-        return _this;
+    _this.state = {
+      playerX: 0,
+      playerO: 0,
+      board: [['+', '+', '+'], ['+', '+', '+'], ['+', '+', '+']],
+      turn: 0,
+      drawCount: 0
+    };
+    return _this;
+  }
+
+  _createClass(App, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.startGame();
     }
-
-    _createClass(App, [{
-        key: 'changeInput',
-        value: function changeInput(i, j) {
-            if (this.state.board[i][j] === 'x' || this.state.board[i][j] === 'o') {
-                return;
-            }
-            if (this.state.turn % 2 === 0) {
-                var newBoard = this.state.board;
-                newBoard[i][j] = 'x';
-                var newTurn = this.state.turn + 1;
-                this.setState({
-                    board: newBoard,
-                    turn: newTurn
-                });
-            } else {
-                var _newBoard = this.state.board;
-                _newBoard[i][j] = 'o';
-                var _newTurn = this.state.turn + 1;
-                this.setState({
-                    board: _newBoard,
-                    turn: _newTurn
-                });
-            }
+  }, {
+    key: 'startGame',
+    value: function startGame() {
+      if (this.state.turn === 0) {
+        alert('PLAYER X STARTS');
+      } else {
+        if (this.state.turn % 2 === 0) {
+          alert('PLAYER O STARTS');
+        } else {
+          alert('PLAYER X STARTS');
         }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(_Table2.default, { table: this.state.board, changeInput: this.changeInput.bind(this) })
-                ),
-                _react2.default.createElement(
-                    'h3',
-                    null,
-                    'Player One Score: ',
-                    this.state.playerOneScore
-                ),
-                _react2.default.createElement(
-                    'h3',
-                    null,
-                    'Player Two Score: ',
-                    this.state.playerTwoScore
-                )
-            );
-        }
-    }]);
+      }
+      this.setState({
+        drawCount: 0
+      });
+    }
+  }, {
+    key: 'changeInput',
+    value: function changeInput(i, j) {
+      var marker = '';
+      if (this.state.board[i][j] === 'x' || this.state.board[i][j] === 'o') {
+        return;
+      }
+      if (this.state.turn % 2 === 0) {
+        var newBoard = this.state.board;
+        newBoard[i][j] = 'x';
+        marker = 'x';
+        var newTurn = this.state.turn + 1;
+        this.setState({
+          board: newBoard,
+          turn: newTurn,
+          drawCount: this.state.drawCount += 1
+        });
+      } else {
+        var _newBoard = this.state.board;
+        _newBoard[i][j] = 'o';
+        marker = 'o';
+        var _newTurn = this.state.turn + 1;
+        this.setState({
+          board: _newBoard,
+          turn: _newTurn,
+          drawCount: this.state.drawCount += 1
+        });
+      }
+      if (this.checkRows(marker) || this.checkColumns(marker) || this.checkMajorDiagonals(marker) || this.checkMinorDiagonals(marker)) {
+        var _setState;
 
-    return App;
+        marker = marker.toUpperCase();
+        alert('YOU WON, PLAYER ' + marker + '!');
+        var name = 'player' + marker;
+        var score = this.state[name] + 1;
+        this.setState((_setState = {
+          board: [['+', '+', '+'], ['+', '+', '+'], ['+', '+', '+']]
+        }, _defineProperty(_setState, name, score), _defineProperty(_setState, 'drawCount', 0), _setState));
+        return this.startGame();
+      }
+      this.endGame();
+    }
+  }, {
+    key: 'endGame',
+    value: function endGame() {
+      if (this.state.drawCount === 9) {
+        alert('This is a draw');
+        this.setState({
+          board: [['+', '+', '+'], ['+', '+', '+'], ['+', '+', '+']]
+        });
+        this.startGame();
+      }
+    }
+  }, {
+    key: 'checkRows',
+    value: function checkRows(marker) {
+      for (var i = 0; i < this.state.board.length; i++) {
+        var row = this.state.board[i];
+        var count = 0;
+        for (var j = 0; j < row.length; j++) {
+          if (row[j] === marker) {
+            count++;
+          }
+        }
+        if (count === 3) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }, {
+    key: 'checkColumns',
+    value: function checkColumns(marker) {
+      for (var i = 0; i < this.state.board.length; i++) {
+        var count = 0;
+        for (var j = 0; j < this.state.board.length; j++) {
+          if (this.state.board[j][i] === marker) {
+            count++;
+          }
+        }
+        if (count === 3) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }, {
+    key: 'checkMajorDiagonals',
+    value: function checkMajorDiagonals(marker) {
+      var count = 0;
+      for (var i = 0; i < this.state.board.length; i++) {
+        if (this.state.board[i][i] === marker) {
+          count++;
+        }
+      }
+      if (count === 3) {
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'checkMinorDiagonals',
+    value: function checkMinorDiagonals(marker) {
+      var count = 0;
+      var j = this.state.board.length - 1;
+      for (var i = 0; i < this.state.board.length; i++) {
+        if (this.state.board[i][j] === marker) {
+          count++;
+        }
+        j -= 1;
+      }
+      if (count === 3) {
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(_Table2.default, { table: this.state.board, changeInput: this.changeInput.bind(this) })
+        ),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Player X Score: ',
+          this.state.playerX
+        ),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Player O Score: ',
+          this.state.playerO
+        )
+      );
+    }
+  }]);
+
+  return App;
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
@@ -18382,11 +18498,6 @@ var Table = function (_React$Component) {
     }
 
     _createClass(Table, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            console.log(this.props.table);
-        }
-    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
@@ -18397,7 +18508,7 @@ var Table = function (_React$Component) {
                 this.props.table.map(function (array, i) {
                     return _react2.default.createElement(
                         'div',
-                        null,
+                        { key: i },
                         _react2.default.createElement(_TableRow2.default, { row: array, changeInput: _this2.props.changeInput, value: i })
                     );
                 })
@@ -18418,7 +18529,7 @@ exports.default = Table;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -18436,56 +18547,56 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var TableRow = function (_React$Component) {
-    _inherits(TableRow, _React$Component);
+  _inherits(TableRow, _React$Component);
 
-    function TableRow(props) {
-        _classCallCheck(this, TableRow);
+  function TableRow(props) {
+    _classCallCheck(this, TableRow);
 
-        var _this = _possibleConstructorReturn(this, (TableRow.__proto__ || Object.getPrototypeOf(TableRow)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (TableRow.__proto__ || Object.getPrototypeOf(TableRow)).call(this, props));
 
-        _this.state = {
-            val: _this.props.value,
-            index: {}
-        };
-        return _this;
+    _this.state = {
+      val: _this.props.value,
+      index: {}
+    };
+    return _this;
+  }
+
+  _createClass(TableRow, [{
+    key: 'clicked',
+    value: function clicked(e) {
+      this.props.changeInput(this.state.val, this.state.index[e.target]);
     }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
 
-    _createClass(TableRow, [{
-        key: 'clicked',
-        value: function clicked(e) {
-            this.props.changeInput(this.state.val, this.state.index[e.target]);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
+      return _react2.default.createElement(
+        'tr',
+        null,
+        this.props.row.map(function (item, j) {
+          return _react2.default.createElement(
+            'td',
+            { key: j },
+            _react2.default.createElement(
+              'span',
+              { onClick: function (e) {
+                  var newIndex = this.state.index;
+                  newIndex[e.target] = j;
+                  this.setState({
+                    index: newIndex
+                  });
+                  this.clicked(e);
+                }.bind(_this2) },
+              item
+            )
+          );
+        })
+      );
+    }
+  }]);
 
-            return _react2.default.createElement(
-                'tr',
-                null,
-                this.props.row.map(function (item, j) {
-                    return _react2.default.createElement(
-                        'td',
-                        null,
-                        _react2.default.createElement(
-                            'span',
-                            { val: j, onClick: function (e) {
-                                    var newIndex = this.state.index;
-                                    newIndex[e.target] = j;
-                                    this.setState({
-                                        index: newIndex
-                                    });
-                                    this.clicked(e);
-                                }.bind(_this2) },
-                            item
-                        )
-                    );
-                })
-            );
-        }
-    }]);
-
-    return TableRow;
+  return TableRow;
 }(_react2.default.Component);
 
 exports.default = TableRow;
